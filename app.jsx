@@ -1,10 +1,11 @@
 
 class Model {
 
-      constructor() {
+      constructor(questionsArray) {
             this.cont = 0,
             this.barCounter = 0;
             this.questions = [];
+            this.arrayQ = questionsArray;
             this.render = undefined;
       }
 
@@ -16,79 +17,56 @@ class Model {
             //console.log(this.questions.map(e => e.question));
             this.render();
       }
-      onClick(e, index) {
+      nextQuestion(question) {
             this.questions.push({
-                  image: this.questions[this.cont].image,
-                  question: this.questions[this.cont].question,
-                  answerOptions: this.questions[this.cont].answers,
-                  answer: this.questions[this.cont].correctAnswer
+                  image: question.image,
+                  question: question.question,
+                  answerOptions: question.answers,
+                  answer: question.correctAnswer
             });
-            this.cont ++;
+            this.cont++;
             this.inform();
 
       }
 }
 
 const App = ({ title, model }) => {
-      const getAnswerList = (answers) => {
-            return answers.map((answer, index) => {
-                  return (
-                        <li key={index}>
-                              <a className="btn btn-block btn-warning btnClic" id={index} onClick={(e) => this.onClick(e, index)}>{answer}</a>
-                        </li >
-
-                  );
-            });
-      }
-      const AnswerList = ({ answers }) => {
-
+      
+      const answers = model.arrayQ.map((question, index) => {
+            console.log(question);
             return (
-                  <div>
-                        <ul>{getAnswerList(answers)}</ul>
-                  </div>
-            );
-      }
-      const Quiz = (props) => {
+                  <li key={index}>
+                        <a
+                              className="btn btn-block btn-warning btnClic"
+                              id={index}
+                              onChange={e =>
+                                    model.nextQuestion(index, {
+                                          image: question.image,
+                                          question: question.question,
+                                          answerOptions: question.answerOptions,
+                                          answer: question.answer
 
-            return (
-                  <div className="quiz">
-                        <h2 className="question">{props.question}</h2>
-                        <AnswerList answers={props.answerOptions} />
+                                    })}
+                              value={question.answerOptions}
+                        ></a>
+                  </li >
 
-                  </div>
-            );
-      }
-      console.log(model.questions);
-      const Images = model.questions.map((question, index) => {
-            return (
-                  <div>
-                        <img className="imageSize" align="center" src={question.image} alt="" />
-                  </div>
             );
       });
-      
-      
+
+      const Images = model.arrayQ.map((question, index) => {
+            return (
+                  <div key={index}>
+                      <img className="imageSize" align="center" src={question.image} alt="" />
+                  </div>
+              );
+      });
+
       return (
             <div className="questions container-fluid">
                   <h1>{title}</h1>
-                  <div className="row">
-                        <div className="col-md-12 col-xs-12 col-sm-12">
-                              <div id="myProgress">
-                                    <div id="bar" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                          <span class="sr-only"></span>
-                                    </div>
-                              </div>
-                        </div>
-                  </div>
-                  <div className="row">
-                        <div className="col-md-6 col-xs-6 col-sm-6">
-                              <Images />
-                        </div>
-                        <div className="col-md-6 col-xs-6 col-sm-6">
-                              <Quiz />
-                        </div>
-                  </div>
-
+                  <div>{Images}</div>
+                  <ol> {answers} </ol>
             </div>
       );
 };

@@ -1,18 +1,11 @@
 body{
-  background: url("../img/machupichu.jpg");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-attachment: fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  background-color: #666666;
 
 }
 
 #containerQuizz{
   margin: 100px 100px;
-  background-color: #7BCBEB;
+  background-color: #7BEBB3;
   opacity: 0.9;
 }
 
